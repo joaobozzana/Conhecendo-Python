@@ -45,7 +45,7 @@ class IndexPage:
         self.login.attributes("-alpha", 0.9)  # Transparência da janela
 
         # IMG
-        self.logo = PhotoImage(file="icons/logo.png")
+        self.logo = PhotoImage(file="imgs/logo.png")
 
         LeftFrame = Frame(self.login, width=200, height=300, bg="#BFBFBF", relief="solid", bd=2, borderwidth=1, padx=5, pady=5, highlightbackground="black", highlightcolor="black", highlightthickness=2)
         LeftFrame.pack(side=LEFT)

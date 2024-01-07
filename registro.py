@@ -82,7 +82,7 @@ class Register:
         self.registro.attributes("-alpha", 0.9)  # Transparência da janela
 
         # LOGO
-        logo = PhotoImage(file="icons/logo.png")
+        logo = PhotoImage(file="imgs/logo.png")
         largura_desejada = 50
         altura_desejada = 50
         logo = logo.subsample(int(logo.width() / largura_desejada), int(logo.height() / altura_desejada))
