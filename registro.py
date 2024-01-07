@@ -3,13 +3,9 @@ from tkinter import Tk, Label, messagebox, ttk, Entry, PhotoImage
 from turtle import back
 import DataBase
 
-
 class Register:
 
     def back(self):
-        # Implemente o código da sua função aqui
-        print("Botão de back clicado!")
-
         # Fechar a janela atual
         self.registro.destroy()
 
@@ -18,20 +14,35 @@ class Register:
         index_page.run()
 
     def RegistertoDataBase(self):
-        Name = self.NameEntry.get()
+        Nome = self.NomeEntry.get()
         Email = self.EmailEntry.get()
-        User = self.UserEntry.get()
-        Pass = self.PassEntry.get()
-        DataBase.cursor.execute("""
-            INSERT INTO users(Name, Email, User, Password) VALUES(?, ?, ?, ?)
-        """, (Name, Email, User, Pass))
+        Usuario = self.UsuarioEntry.get()
+        Senha = self.SenhaEntry.get()
 
-        DataBase.conn.commit()
-        messagebox.showinfo(title="Register Info", message="Registration completed")
+        campos_vazios = []
+        if Nome == "":
+            campos_vazios.append("Nome")
+        if Email == "":
+            campos_vazios.append("Email")
+        if Usuario == "":
+            campos_vazios.append("Usuário")
+        if Senha == "":
+            campos_vazios.append("Senha")
+
+        if campos_vazios:
+            mensagem = f"Preencha os seguintes campos: {', '.join(campos_vazios)}"
+            messagebox.showerror(title="Registro invalidado", message=mensagem)
+        else:
+            DataBase.cursor.execute("""
+                INSERT INTO users(nome, email, usuario, senha) VALUES(?, ?, ?, ?)
+            """, (Nome, Email, Usuario, Senha))
+
+            DataBase.conn.commit()
+            messagebox.showinfo(title="Informações de registro", message="Registro concluído")
 
     def __init__(self):
         self.registro = Tk()
-        self.registro.title("Acesso do Painel")
+        self.registro.title("Painel de Registro")
         self.registro.geometry("400x400")
         self.registro.configure(background="#E6E6E6")
         self.registro.resizable(width=False, height=False)
@@ -48,35 +59,35 @@ class Register:
 
         # Configurações adicionais, widgets, etc.
 
-        NameLabel = Label(self.registro, text="Name:", font=("Century Gothic", 14), bg="#E6E6E6")
-        NameLabel.place(x=15, y=70)
-        self.NameEntry = ttk.Entry(self.registro, width=30)
-        self.NameEntry.place(x=115, y=75)
-        self.NameEntry.focus()
+        NomeLabel = Label(self.registro, text="Nome:", font=("Century Gothic", 14), bg="#E6E6E6")
+        NomeLabel.place(x=15, y=70)
+        self.NomeEntry = ttk.Entry(self.registro, width=30)
+        self.NomeEntry.place(x=115, y=75)
+        self.NomeEntry.focus()
 
         EmailLabel = Label(self.registro, text="Email:", font=("Century Gothic", 14), bg="#E6E6E6")
         EmailLabel.place(x=15, y=120)
         self.EmailEntry = ttk.Entry(self.registro, width=30)
         self.EmailEntry.place(x=115, y=125)
 
-        UserLabel = Label(self.registro, text="Username:", font=("Century Gothic", 14), bg="#E6E6E6")
-        UserLabel.place(x=15, y=170)
-        self.UserEntry = ttk.Entry(self.registro, width=30)
-        self.UserEntry.place(x=115, y=175)
+        UsuarioLabel = Label(self.registro, text="Usuário:", font=("Century Gothic", 14), bg="#E6E6E6")
+        UsuarioLabel.place(x=15, y=170)
+        self.UsuarioEntry = ttk.Entry(self.registro, width=30)
+        self.UsuarioEntry.place(x=115, y=175)
         
-        PassLabel = Label(self.registro, text="Password:", font=("Century Gothic", 14), bg="#E6E6E6")
-        PassLabel.place(x=15, y=220)
-        self.PassEntry = ttk.Entry(self.registro, width=30, show='●') 
-        self.PassEntry.place(x=115, y=225)
+        SenhaLabel = Label(self.registro, text="Senha:", font=("Century Gothic", 14), bg="#E6E6E6")
+        SenhaLabel.place(x=15, y=220)
+        self.SenhaEntry = ttk.Entry(self.registro, width=30, show='●') 
+        self.SenhaEntry.place(x=115, y=225)
 
         # Botoes
         button_bg = "#4CAF50"  # Cor de destaque para os botões
 
-        RegisterButton = ttk.Button(self.registro, text="Register", width=30, style='TButton', command=self.RegistertoDataBase)
-        RegisterButton.place(x=70, y=280)
+        RegistroButton = ttk.Button(self.registro, text="Registrar", width=30, style='TButton', command=self.RegistertoDataBase)
+        RegistroButton.place(x=70, y=280)
 
-        BackButton = ttk.Button(self.registro, text="Back", width=30, style='TButton', command=self.back)
-        BackButton.place(x=70, y=320)
+        VoltarButton = ttk.Button(self.registro, text="Voltar", width=30, style='TButton', command=self.back)
+        VoltarButton.place(x=70, y=320)
 
         # Estilo para os botões
         style = ttk.Style()

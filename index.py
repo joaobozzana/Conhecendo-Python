@@ -2,9 +2,27 @@ from tkinter import Tk, Label, Frame, ttk, Entry, PhotoImage
 from tkinter import *
 from tkinter import messagebox
 from registro import Register
+import DataBase
 
 class IndexPage:
-    def sua_funcao(self):
+
+    def logar(self):
+        Usuario = self.UsuarioEntry.get()
+        Senha = self.SenhaEntry.get()
+
+        DataBase.cursor.execute("""
+            SELECT * FROM users 
+            WHERE usuario = ? AND senha = ?
+            """, (Usuario, Senha))
+        print("Foi")
+        VerificaLogin = DataBase.cursor.fetchone()
+        try:
+            if (Usuario in VerificaLogin and Senha in VerificaLogin):
+                messagebox.showinfo(title="Informações de login", message="Acesso validado")
+        except:
+            messagebox.showerror(title="Informações de login", message="Acesso negado")
+
+    def registrar(self):
         # Fechar a janela atual
         self.login.destroy()
 
@@ -14,7 +32,7 @@ class IndexPage:
 
     def __init__(self):
         self.login = Tk()
-        self.login.title("Acesso do Painel")
+        self.login.title("Painel de login")
         self.login.geometry("600x300")
         self.login.configure(background="#E6E6E6")
         self.login.resizable(width=False, height=False)
@@ -39,28 +57,28 @@ class IndexPage:
         LogoLabel.place(x=40, y=80)
 
         # User
-        UserLabel = Label(RightFrame, text="Username:", font=("Century Gothic", 14), bg="#BFBFBF", fg="black")
-        UserLabel.place(x=5, y=70)
+        UsuarioLabel = Label(RightFrame, text="Usuário:", font=("Century Gothic", 14), bg="#BFBFBF", fg="black")
+        UsuarioLabel.place(x=5, y=70)
 
-        UserEntry = ttk.Entry(RightFrame, width=30)
-        UserEntry.place(x=115, y=75)
-        UserEntry.focus()  # Foca no campo de usuário inicialmente
+        self.UsuarioEntry = ttk.Entry(RightFrame, width=30)
+        self.UsuarioEntry.place(x=115, y=75)
+        self.UsuarioEntry.focus()  # Foca no campo de usuário inicialmente
 
         # Senha
-        PassLabel = Label(RightFrame, text="Password:", font=("Century Gothic", 14), bg="#BFBFBF", fg="black")
-        PassLabel.place(x=5, y=120)
+        SenhaLabel = Label(RightFrame, text="Senha:", font=("Century Gothic", 14), bg="#BFBFBF", fg="black")
+        SenhaLabel.place(x=5, y=120)
 
-        PassEntry = ttk.Entry(RightFrame, width=30, show='●') 
-        PassEntry.place(x=115, y=125)
+        self.SenhaEntry = ttk.Entry(RightFrame, width=30, show='●') 
+        self.SenhaEntry.place(x=115, y=125)
 
         # Botoes
         button_bg = "#4CAF50"  # Cor de destaque para os botões
 
-        LoginButton = ttk.Button(RightFrame, text="Login", width=30, style='TButton')
+        LoginButton = ttk.Button(RightFrame, text="Login", width=30, style='TButton', command=self.logar)
         LoginButton.place(x=70, y=200)
 
-        RegisterButton = ttk.Button(RightFrame, text="Register", width=30, style='TButton', command=self.sua_funcao)
-        RegisterButton.place(x=70, y=240)
+        RegistroButton = ttk.Button(RightFrame, text="Registrar-se", width=30, style='TButton', command=self.registrar)
+        RegistroButton.place(x=70, y=240)
 
         # Estilo para os botões
         style = ttk.Style()
