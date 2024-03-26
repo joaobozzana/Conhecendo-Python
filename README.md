@@ -1,5 +1,10 @@
 # Conhecendo Python
 
-Este repositório tem como objetivo principal compartilhar meus projetos relacionados a diferentes bibliotecas e frameworks de Python que estudo. Utilizo esses projetos como uma oportunidade para explorar o funcionamento dessas ferramentas na prática, aplicando conceitos aprendidos e buscando constantemente novos conhecimentos.
+O objetivo principal deste repositório é armazenar meus "projetos" relacionados ao estudo da linguagem Python, nos quais irei incluir scripts, alem de explorar bibliotecas e frameworks. 
+Onde farei uma aplicação prática para entender melhor o conceito da biblioteca ou frameworks, buscando aprimorar minhas skills na linguagem e explorar diferentes áreas de aplicação.
 
-Cada projeto presente neste repositório é uma aplicação simples, criada com o critério de estudo e aprendizado contínuo. Através desses projetos, busco aprimorar minhas habilidades em programação Python, entender melhor as funcionalidades das bibliotecas e frameworks utilizados, e explorar diferentes áreas de aplicação da linguagem.
+
+### [Bibliotecas](/Bibliotecas/README.md)
+### [Frameworks](/Frameworks/README.md)
+### [Scripts](/Scripts/README.md)
+### [Aplicações](/Aplicacoes/README.md)
