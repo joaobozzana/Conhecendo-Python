@@ -1,8 +1,8 @@
 # Scripts na AWS
 
-A ideia é explorar os serviços da AWS, de forma que os scripts (funções lambda) automatizem alguns serviços. Todo o desenvolvimento será sempre limitado ao que a AWS oferece gratuitamente. Além disso, quaisquer chaves que possam aparecer estão **desativadas**.
+A ideia é explorar os serviços da AWS, aproveitando as funções **lambda** em conjunto com o **Amazon EventBridge** para automatizar as instâncias EC2, incluindo a criação, backup, inicialização e desligamento. Estou restrito aos recursos gratuitos oferecidos pela AWS e, além disso, caso tenha quaisquer credenciais sensíveis, elas estão desativadas.
 
-## Script para criar instâncias EC2
+## Criar instâncias EC2
 
 Um dos serviços oferecidos pela AWS é o Amazon EC2, que possibilita a criação de máquinas virtuais, ou instâncias, que operam na Nuvem AWS. Minha primeira [função Lambda](/Scripts/Automocao%20AWS/Create-EC2-t2micro-linux.py) visa automatizar a criação dessas instâncias, permitindo configurar diversos aspectos, como imagem, tipo de instância, entre outros, de acordo com as preferências desejadas.
 
@@ -32,7 +32,7 @@ Algumas capturas de tela do processo:
     ![Detalhes da Instância 2/2](/Scripts/Automocao%20AWS/imgs%20Create/detalhes-2-EC2.png)
 
 
-## Script fazer backups de instâncias EC2
+## Backups de instâncias EC2
 
 Seguindo a mesma linha de raciocínio da ideia anterior, na qual automatizei a criação de instâncias EC2, desta vez concentrei-me na automatização dos Snapshots (backup). Para isso, desenvolvi uma [função Lambda](/Scripts/Automocao%20AWS/Backup-EC2.py) e utilizei o recurso **Amazon EventBridge**. Através dele, programei a frequência com que desejo que minha função seja executada, garantindo assim a criação de novos Snapshots de forma regular.
 
@@ -59,3 +59,43 @@ Para completar, incluí imagens da minha instância, dos snapshots gerados e do 
 - ![snapshots](/Scripts/Automocao%20AWS/imgs%20Backup/snapshots.png)
 
 - ![log](/Scripts/Automocao%20AWS/imgs%20Backup/logs.png)
+
+
+## Start/Stop das instâncias EC2
+
+Com o intuito de otimizar o uso dos recursos na AWS, foram criadas duas funções lambda e foram integradas ao **Amazon EventBridge** para automatizar o processo de ligar e desligar instâncias (procurando em todas as regiões). Essa abordagem permite programar os horários específicos de ligamento e desligamento, bem como os dias da semana em que essas ações devem ocorrer, evitando a necessidade de manter as instâncias ativas 24 horas por dia. Diferente do caso anterios no tipo de cronograma eu utilizei a expressão cron para fazer essa definição.
+
+### Stop instâncias
+
+No **Amazon EventBridge**, foi configurado para que a [função](/Scripts/Automocao%20AWS/Stop-EC2.py) execute o desligamento das instâncias de segunda a sexta-feira às 20h.
+
+- Instância criada para esse teste:
+
+    ![Instância](/Scripts/Automocao%20AWS/imgs%20Start-Stop/instancia-stop.png)
+
+- Detalhes do cronograma e expressão cron:
+
+    ![Cronograma](/Scripts/Automocao%20AWS/imgs%20Start-Stop/destalhes-stop.png)
+
+- Log do **CloudWatch**:
+
+    ![Cronograma](/Scripts/Automocao%20AWS/imgs%20Start-Stop/log-stop.png)
+
+### Start instâncias
+
+No **Amazon EventBridge**, foi configurado para que a [função](/Scripts/Automocao%20AWS/Start-EC2.py) inicie das instâncias de segunda a sexta-feira às 6h.
+
+- Instância criada para esse teste:
+
+    ![Instância](/Scripts/Automocao%20AWS/imgs%20Start-Stop/instancia-start.png)
+
+- Detalhes do cronograma e expressão cron:
+
+    ![Cronograma](/Scripts/Automocao%20AWS/imgs%20Start-Stop/detalhes-start.png)
+
+- Log do **CloudWatch**:
+
+    ![Cronograma](/Scripts/Automocao%20AWS/imgs%20Start-Stop/logs-start.png)
+
+
+## Dynamonddb
