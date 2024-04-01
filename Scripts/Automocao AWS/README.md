@@ -21,11 +21,11 @@ Algumas capturas de tela do processo:
 
     ![Função](/Scripts/Automocao%20AWS/imgs%20Create/funcao-EC2.png)
 
-- Instância criada:
+- Instância criada (**EC2**):
 
     ![Instância gerada](/Scripts/Automocao%20AWS/imgs%20Create/instancia-EC2.png)
 
-- Detalhes da instância:
+- Detalhes da instância (**EC2**):
 
     ![Detalhes da Instância 1/2](/Scripts/Automocao%20AWS/imgs%20Create/detalhes-1-EC2.png)
 
@@ -38,15 +38,15 @@ Seguindo a mesma linha de raciocínio da ideia anterior, na qual automatizei a c
 
 A programação do **Amazon EventBridge**, se deu da seguinte forma:
 
-- Criação do novo cronograma:
+- Criação do novo cronograma (**Amazon EventBridge**):
 
     ![Criação](/Scripts/Automocao%20AWS/imgs%20Backup/criacao-Bridge.png)
 
-- Para o tipo de cronograma, optei por utilizar intervalos como base, que é mais simples para o teste.
+- Para o tipo de cronograma, optei por utilizar intervalos como base, que é mais simples para o teste (**Amazon EventBridge**).
 
     ![Tipo de cronograma](/Scripts/Automocao%20AWS/imgs%20Backup/intervalo-Bridge.png)
 
-- Nas opções disponíveis, seleciono o serviço Lambda e escolho a função desejada.
+- Nas opções disponíveis, seleciono o serviço Lambda e escolho a função desejada (**Amazon EventBridge**).
 
     ![Lambda](/Scripts/Automocao%20AWS/imgs%20Backup/escolha-1-Bridge.png)
 
@@ -69,15 +69,15 @@ Com o intuito de otimizar o uso dos recursos na AWS, foram criadas duas funçõe
 
 No **Amazon EventBridge**, foi configurado para que a [função](/Scripts/Automocao%20AWS/Stop-EC2.py) execute o desligamento das instâncias de segunda a sexta-feira às 20h.
 
-- Instância criada para esse teste:
+- Instância criada para esse teste (**EC2**):
 
     ![Instância](/Scripts/Automocao%20AWS/imgs%20Start-Stop/instancia-stop.png)
 
-- Detalhes do cronograma e expressão cron:
+- Detalhes do cronograma e expressão cron (**Amazon EventBridge**):
 
     ![Cronograma](/Scripts/Automocao%20AWS/imgs%20Start-Stop/destalhes-stop.png)
 
-- Log do **CloudWatch**:
+- Log (**CloudWatch**):
 
     ![Cronograma](/Scripts/Automocao%20AWS/imgs%20Start-Stop/log-stop.png)
 
@@ -85,11 +85,11 @@ No **Amazon EventBridge**, foi configurado para que a [função](/Scripts/Automo
 
 No **Amazon EventBridge**, foi configurado para que a [função](/Scripts/Automocao%20AWS/Start-EC2.py) inicie das instâncias de segunda a sexta-feira às 6h.
 
-- Instância criada para esse teste:
+- Instância criada para esse teste (**EC2**):
 
     ![Instância](/Scripts/Automocao%20AWS/imgs%20Start-Stop/instancia-start.png)
 
-- Detalhes do cronograma e expressão cron:
+- Detalhes do cronograma e expressão cron (**Amazon EventBridge**):
 
     ![Cronograma](/Scripts/Automocao%20AWS/imgs%20Start-Stop/detalhes-start.png)
 
@@ -98,4 +98,28 @@ No **Amazon EventBridge**, foi configurado para que a [função](/Scripts/Automo
     ![Cronograma](/Scripts/Automocao%20AWS/imgs%20Start-Stop/logs-start.png)
 
 
-## Dynamonddb
+## DynamoDB
+
+Explorando além do EC2, outro recurso muito empregado na AWS é o DynamoDB. Portanto, novamente com o auxílio de uma [função lambda](/Scripts/Automocao%20AWS/Backup-DynamoDB.py) e o **Amazon EventBridge**, desenvolvi um script para realizar backups automáticos da tabela **carros** (que criei para teste) a cada 24 horas. Abaixo, algumas imagens ilustrando esse processo:
+
+- Banco de dados criado (**DynamoDB**):
+
+    ![Banco de Dados](/Scripts/Automocao%20AWS/imgs%20DynamoDB/banco-dynamoDB.png)
+
+- Detalhes do agendamento no **Amazon EventBridge**: um ponto de interesse foi testar o "Payload (Carga útil)". Para isso, criei uma variável "TableName" na função lambda, permitindo que eu passe dinamicamente o nome da tabela desejada para o script de backup através do Payload.
+
+    ![Cronograma](/Scripts/Automocao%20AWS/imgs%20DynamoDB/detalhes-dynamoDB.png)
+
+- Backup do banco (**DynamoDB**):
+
+    ![Backup do banco](/Scripts/Automocao%20AWS/imgs%20DynamoDB/backup-dynamoDB.png)
+
+- Log do (**CloudWatch**):
+
+    ![Log](/Scripts/Automocao%20AWS/imgs%20DynamoDB/log-dynamoDB.png)
+
+---
+
+### OBS: 
+
+As permissões concedidas a cada função lambda para acessar vários serviços da AWS estão documentadas [aqui](/Scripts/Automocao%20AWS/permissoes.txt).
